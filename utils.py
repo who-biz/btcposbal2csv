@@ -354,12 +354,12 @@ def parse_ldb(fin_name, version=0.15, types=(0, 1)):
             if out['out_type'] == 0:
                 if out['out_type'] not in types:
                     continue
-                add = hash_160_to_btc_address(out['data'], 0)
+                add = hash_160_to_btc_address(out['data'], 60)
                 yield add, out['amount'], value['height']
             elif out['out_type'] == 1:
                 if out['out_type'] not in types:
                     continue
-                add = hash_160_to_btc_address(out['data'], 5)
+                add = hash_160_to_btc_address(out['data'], 85)
                 yield add, out['amount'], value['height']
             elif out['out_type'] in (2, 3, 4, 5):
                 if out['out_type'] not in types:
