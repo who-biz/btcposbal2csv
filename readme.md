@@ -1,20 +1,18 @@
-## Dump Bitcoin addresses with positive balance
+## Dump CHIPS addresses with positive balance
 
-Simple utility to list all bitcoin addresses with positive balance. It works by analysing the current unspent transaction output set (UTXO), aggregating outputs to same addresses together and write them to csv file.
+Simple utility to list all CHIPS addresses with positive balance. It works by analysing the current unspent transaction output set (UTXO), aggregating outputs to same addresses together and write them to csv file.
 
 #### Prequisities:
-python 2.7  
-pip
+```sudo apt-get python2.7-dev libleveldb-dev```
 
 #### To install:  
-run pip install -r requirements.txt
+~~run pip install -r requirements.txt~~  Does not work.  Need to manually install dependencies
 
-or install following packages with pip manualy
-
-for linux：
-* plyvel
-* base58
-* sqlite3
+```
+pip install plyvel==1.2.0
+pip install base58
+pip install pysqlite3
+```
 
 for windows：
 * plyvel-win32
@@ -22,21 +20,20 @@ for windows：
 * pysqlite3
 
 #### Usage
-To use this script, you will need copy of chainstate database as created by [bitcoin core](https://bitcoin.org/en/bitcoin-core/)
- client. I've not tried different clients.
+To use this script, you will need copy of chainstate database as created by [CHIPS](https://github.com/chips-blockchain/chips) daemon.
  
 To get current addresses with positive balance, let the full node client sync with the network. 
-**Stop** the bitcoin-core client before running this utility. If you not stop the client, the database might get corrupted.  
-Then run this program with path to chainstate directory (usualy $HOME/.bitcoin/chainstate).
+**Stop** `chipsd` before running this utility. If you not stop the daemon, the database might get corrupted.  
+Then run this program with path to chainstate directory (usualy $HOME/.chips/chainstate).
 
 Show help
 ```
 python btcposbal2csv.py -h
 ```
 #### Example:  
-The following will read from `/home/USER/.bitcoin/chainstate`, and write result to `/home/USER/addresses_with_balance.csv`.
+The following will read from `/home/USER/.chips/chainstate`, and write result to `/home/USER/addresses_with_balance.csv`.
 ```
-python btcposbal2csv.py /home/USER/.bitcoin/chainstate /home/USER/addresses_with_balance.csv
+python btcposbal2csv.py /home/USER/.chips/chainstate /home/USER/addresses_with_balance.csv
 ```
 
 ##### Notice
