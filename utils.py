@@ -4,6 +4,7 @@ import plyvel
 from binascii import hexlify, unhexlify
 from base58 import b58encode
 import sys
+import segwit_addr
 
 # THIS functions are from bitcoin_tools and was only mildly changed.
 # Please refer to readme.md for the proper link to that library.
@@ -313,6 +314,8 @@ def parse_ldb(fin_name, version=0.15, types=(0, 1)):
     # Open the LevelDB
     db = plyvel.DB(fin_name, compression=None)  # Change with path to chainstate
 
+    hrp = "bc"
+
     # Load obfuscation key (if it exists)
     o_key = db.get((unhexlify("0e00") + "obfuscate_key"))
 
@@ -365,8 +368,21 @@ def parse_ldb(fin_name, version=0.15, types=(0, 1)):
                 if out['out_type'] not in types:
                     continue
                 add = 'P2PK'
+                print('\nP2PK not_decoded script = %s' % out)
+                yield add, out['amount'], value['height']
+            elif out['out_type'] in (28, 40):
+#                print('\nout data = %s' % out['data'])
+                datalist = list(bytearray.fromhex(out['data']))
+                witver = datalist[0]
+#                print datalist
+                program = datalist[2:(datalist[1]+2)]
+#                print listdata
+                add = segwit_addr.encode(hrp, witver, program)
+#                print('out_type = %d' % out['out_type'], 'address = %s' % add, 'height = %d' % value['height'])
                 yield add, out['amount'], value['height']
             else:
+                print('\nnot_decoded script = %s' % out)
+                print('\nheight = %s' % value['height'])
                 not_decoded[0] += 1
                 not_decoded[1] += out['amount']
 
