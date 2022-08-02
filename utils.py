@@ -12,6 +12,32 @@ import segwit_addr
 # Fee per byte range
 NSPECIALSCRIPTS = 6
 
+def sats_to_fixed(amt):
+    """ Convert integer representation of satoshi-based values to fixed precision float
+
+    :param amt: Amount in satoshis to be converted
+    :type amt: int
+    :return: amount with fixed precision of 8 decimal places
+    :rtype: float
+    """
+
+    amtstr = str(amt)
+    zerostr = str(0)
+    sig_digits = len(amtstr)
+    decimalstr = ' '
+
+    if sig_digits < 10:
+        diff =  9 - sig_digits
+        while diff > 0:
+            amtstr = zerostr + amtstr
+            diff -= 1
+        decimalstr = amtstr[0] + '.' + amtstr[1:9]
+    else:
+        temp = len(amtstr[:-8])
+        decimalstr = amtstr[:-8] + '.' + amtstr[temp:]
+
+    return decimalstr
+
 
 def txout_decompress(x):
     """ Decompresses the Satoshi amount of a UTXO stored in the LevelDB. Code is a port from the Bitcoin Core C++

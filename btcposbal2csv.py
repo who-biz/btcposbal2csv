@@ -3,7 +3,7 @@ import tempfile
 import argparse
 import sqlite3
 from utils import parse_ldb
-
+from utils import sats_to_fixed
 
 def input_args():
     parser = argparse.ArgumentParser(description='Process UTXO set from chainstate and return unspent output per'
@@ -202,7 +202,7 @@ if __name__ == '__main__':
                 if sat_val == 0:
                     continue
                 w.append(
-                    address + ',' + str(sat_val) + ',' + str(block_height)
+                    address + ',' + sats_to_fixed(sat_val) + ',' + str(block_height)
                 )
                 c += 1
                 if c == 1000:
