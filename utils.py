@@ -405,7 +405,9 @@ def parse_ldb(fin_name, version=0.15, types=(0, 1)):
 #                print listdata
                 add = segwit_addr.encode(hrp, witver, program)
 #                print('out_type = %d' % out['out_type'], 'address = %s' % add, 'height = %d' % value['height'])
-                yield add, out['amount'], value['height']
+                not_decoded[0] += 1
+                not_decoded[1] += out['amount']
+#                yield add, out['amount'], value['height']
             else:
                 print('\nnot_decoded script = %s' % out)
                 print('\nheight = %s' % value['height'])
