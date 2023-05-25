@@ -22,13 +22,9 @@ Then, manually install dependencies, as `pip install -r requirements.txt` is als
 ```
 pip install plyvel==1.2.0
 pip install base58
-pip install pysqlite3
+pip install pysqlite
+pip install enum34
 ```
-
-for windows：
-* plyvel-win32
-* base58
-* pysqlite3
 
 #### Usage
 To use this script, you will need copy of chainstate database as created by [CHIPS](https://github.com/chips-blockchain/chips) daemon.
