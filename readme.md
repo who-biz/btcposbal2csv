@@ -6,7 +6,18 @@ Simple utility to list all CHIPS addresses with positive balance. It works by an
 ```sudo apt-get install python2.7-dev libleveldb-dev```
 
 #### To install:  
-~~run pip install -r requirements.txt~~  Does not work.  Need to manually install dependencies
+
+**Since Ubuntu 20.04, `python2.7-pip` is no longer supported.  You need to manually install it, as this repo is not compatible with python3.**
+
+Install pip for python2.7 with the following:
+
+```
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py # Fetch get-pip.py for python 2.7 
+python2 get-pip.py
+```
+Verify your `pip` version with: `pip --version`
+ 
+Then, manually install dependencies, as `pip install -r requirements.txt` is also not functional.
 
 ```
 pip install plyvel==1.2.0
