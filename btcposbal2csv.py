@@ -105,6 +105,10 @@ def in_mem(in_args):
             fin_name=in_args.chainstate,
             version=in_args.bitcoin_version,
             types=get_types(in_args)):
+        if height > snapshot_height:
+            skipping_block_msg = str('ignoring tx after snapshot height. tx height: ' + repr(height))
+            print(skipping_block_msg)
+            continue
         if add in add_dict:
             add_dict[add][0] += val
             add_dict[add][1] = height
@@ -164,6 +168,10 @@ def low_mem(in_args):
                 fin_name=in_args.chainstate,
                 version=in_args.bitcoin_version,
                 types=get_types(in_args)):
+            if height > snapshot_height:
+                skipping_block_msg = str('ignoring tx after snapshot height. tx height: ' + repr(height))
+                print(skipping_block_msg)
+                continue
             curr.execute(expinsert, (add, 0, 0))
             curr.execute(expupdate, (val, height, add))
 
@@ -210,10 +218,6 @@ if __name__ == '__main__':
             c = 0
             for address, sat_val, block_height in add_iter:
                 if sat_val == 0:
-                    continue
-                if block_height > snapshot_height:
-                    skipping_block_msg = str('snapshot_height reached, skipping block at height: ' + repr(block_height))
-                    print(skipping_block_msg)
                     continue
                 w.append(
                     address + ',' + sats_to_fixed(sat_val) + ',' + str(block_height)
