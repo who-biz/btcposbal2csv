@@ -21,6 +21,12 @@ def input_args():
         help='versions of bitcoin node, acceptable values 0.08 - 0.15, default 0.15 should be OK'
     )
     parser.add_argument(
+        '--snapshot_height',
+        type=int,
+        default=0,
+        help='specified height for snapshot cutoff'
+    )
+    parser.add_argument(
         'out',
         metavar='OUTFILE',
         type=str,
@@ -186,6 +192,10 @@ if __name__ == '__main__':
 
     args = input_args()
 
+    if args.snapshot_height:
+        snapshot_height = args.snapshot_height
+        s = str('taking snapshot up to height: ' + repr(snapshot_height))
+        print(s)
     print('reading chainstate database')
     if args.lowmem:
         print('lowmem')
@@ -200,6 +210,10 @@ if __name__ == '__main__':
             c = 0
             for address, sat_val, block_height in add_iter:
                 if sat_val == 0:
+                    continue
+                if block_height > snapshot_height:
+                    skipping_block_msg = str('snapshot_height reached, skipping block at height: ' + repr(block_height))
+                    print(skipping_block_msg)
                     continue
                 w.append(
                     address + ',' + sats_to_fixed(sat_val) + ',' + str(block_height)
