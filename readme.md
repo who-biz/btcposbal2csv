@@ -3,7 +3,7 @@
 Simple utility to list all CHIPS addresses with positive balance. It works by analysing the current unspent transaction output set (UTXO), aggregating outputs to same addresses together and write them to csv file.
 
 #### Prequisities:
-```sudo apt-get install python2.7-dev libleveldb-dev```
+```sudo apt-get install python2.7-dev libleveldb-dev libsqlite3-dev```
 
 #### To install:  
 
